@@ -1,13 +1,47 @@
+var PokemonInfo = React.createClass({
+  render: function() {
+    return (
+      <div>
+        Selected pokemon
+      </div>
+    );
+  }
+});
+
+var Pokemon = React.createClass({
+  buildImgUrl: function(id) {
+    return "http://pokeapi.co/media/img/" + id + ".png"
+  },
+
+  render: function() {
+    return (
+      <div>
+        <img src={this.buildImgUrl(this.props.pokemonData.national_id)}/>
+        <br/>
+        <h3>{this.props.pokemonData.name}</h3>
+        <br/>
+        {this.props.pokemonData.types.map(function(type) {
+           return (
+             <div>
+               {type.name}
+             </div>
+           );
+         })}
+      </div>
+    );
+  }
+});
+
 var PokemonsPane = React.createClass({
   render: function() {
     return (
       <div>
-        <ul>
-          {this.props.pokemonsData.map(function(pokemon) {
-             return (<li key={pokemon.national_id}>{pokemon.name}</li>);
-           })}
-        </ul>
-        <p onClick={this.props.handleLoad(null)}>
+        {this.props.pokemonsData.map(function(pokemon) {
+           return (<Pokemon key={pokemon.national_id}
+                            pokemonData={pokemon}/>);
+         })}
+
+        <p onClick={this.props.handleLoad}>
           Load more
         </p>
       </div>
