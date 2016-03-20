@@ -278,7 +278,7 @@ var PokedexRoot = React.createClass({
   render: function() {
     return (
       <div>
-        <h2>Pokedex</h2>
+        <h1 className="header">Pokedex</h1>
         <Pokedex/>
       </div>
     );
