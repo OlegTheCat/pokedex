@@ -13,16 +13,21 @@ var Pokemon = React.createClass({
     return "http://pokeapi.co/media/img/" + id + ".png"
   },
 
+  handleClick: function() {
+    this.props.handlePokemonSelect(this.props.pokemonData);
+  },
+
   render: function() {
     return (
       <div>
-        <img src={this.buildImgUrl(this.props.pokemonData.national_id)}/>
+        <img src={this.buildImgUrl(this.props.pokemonData.national_id)}
+             onClick={this.handleClick}/>
         <br/>
         <h3>{this.props.pokemonData.name}</h3>
         <br/>
         {this.props.pokemonData.types.map(function(type) {
            return (
-             <div>
+             <div key={type.name}>
                {type.name}
              </div>
            );
@@ -33,13 +38,26 @@ var Pokemon = React.createClass({
 });
 
 var PokemonsPane = React.createClass({
+
+  renderPokemon: function(pokemon) {
+    return (<Pokemon key={pokemon.national_id}
+                     pokemonData={pokemon}
+                     handlePokemonSelect={this.props.handlePokemonSelect}/>);
+  },
+
+  renderSelectedPokemon: function() {
+    if (this.props.selectedPokemon) {
+      return (<PokemonInfo pokemonData={this.props.selectedPokemon}/>);
+    } else {
+      return null;
+    }
+  },
+
   render: function() {
     return (
       <div>
-        {this.props.pokemonsData.map(function(pokemon) {
-           return (<Pokemon key={pokemon.national_id}
-                            pokemonData={pokemon}/>);
-         })}
+        {this.renderSelectedPokemon()}
+        {this.props.pokemonsData.map(this.renderPokemon)}
 
         <p onClick={this.props.handleLoad}>
           Load more
@@ -77,12 +95,17 @@ var Pokedex = React.createClass({
     });
   },
 
+  selectPokemon: function(pokemon) {
+    this.setState({selectedPokemon: pokemon});
+  },
+
   getInitialState: function() {
     console.log("executing getInitialState");
     return {
       initialLoad: false,
       url: "http://pokeapi.co/api/v1/pokemon/?limit=12",
-      pokemonsData: []
+      pokemonsData: [],
+      selectedPokemon: null
     };
   },
 
@@ -100,7 +123,9 @@ var Pokedex = React.createClass({
       return (<div> Loading data </div>);
     } else {
       return (<PokemonsPane pokemonsData={this.state.pokemonsData}
-                            handleLoad={this.fetchPokemons}/>);
+                            selectedPokemon={this.state.selectedPokemon}
+                            handleLoad={this.fetchPokemons}
+                            handlePokemonSelect={this.selectPokemon}/>);
     }
   }
 });
