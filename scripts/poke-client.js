@@ -1,5 +1,10 @@
 var PokemonInfo = React.createClass({
 
+  propTypes: {
+    pokemonData: React.PropTypes.object,
+  },
+
+
   buildImgUrl: function(id) {
     return "http://pokeapi.co/media/img/" + id + ".png"
   },
@@ -97,6 +102,12 @@ var PokemonInfo = React.createClass({
 });
 
 var Pokemon = React.createClass({
+
+  propTypes: {
+    pokemonData: React.PropTypes.object,
+    handlePokemonSelect: React.PropTypes.func.isRequired
+  },
+
   buildImgUrl: function(id) {
     return "http://pokeapi.co/media/img/" + id + ".png"
   },
@@ -127,6 +138,14 @@ var Pokemon = React.createClass({
 
 var PokemonsPane = React.createClass({
 
+  propTypes: {
+    pokemonsData: React.PropTypes.array.isRequired,
+    selectedPokemon: React.PropTypes.object,
+    pokemonsLoading: React.PropTypes.bool.isRequired,
+    handleLoad: React.PropTypes.func.isRequired,
+    handlePokemonSelect: React.PropTypes.func.isRequired
+  },
+
   renderPokemon: function(pokemon) {
     return (<Pokemon key={pokemon.national_id}
                      pokemonData={pokemon}
@@ -141,15 +160,27 @@ var PokemonsPane = React.createClass({
     }
   },
 
+  renderLoadMoreButton: function() {
+    if (this.props.pokemonsLoading) {
+      return (
+        <p>
+          Loading ...
+        </p>
+      );
+    } else {
+      return (
+        <p onClick={this.props.handleLoad}>
+          Load more
+        </p>);
+    }
+  },
+
   render: function() {
     return (
       <div>
         {this.renderSelectedPokemon()}
         {this.props.pokemonsData.map(this.renderPokemon)}
-
-        <p onClick={this.props.handleLoad}>
-          Load more
-        </p>
+        {this.renderLoadMoreButton()}
       </div>
     );
   }
@@ -157,7 +188,7 @@ var PokemonsPane = React.createClass({
 
 var Pokedex = React.createClass({
 
-  fetchPokemons: function(complete) {
+  loadPokemons: function(before, complete) {
     console.log("abount to query " + this.state.url);
 
     $.ajax({
@@ -179,8 +210,36 @@ var Pokedex = React.createClass({
         console.error(this.state.url, status, err.toString());
       }.bind(this),
 
+      beforeSend: function() {
+        if (before) { before(); }
+        return true;
+      },
       complete: complete
     });
+  },
+
+  initialPokemonsFetch: function() {
+    var before = function() {
+      this.setState({initialPokemonsLoading: true});
+    }.bind(this);
+
+    var complete = function() {
+      this.setState({initialPokemonsLoading: false});
+    }.bind(this);
+
+    this.loadPokemons(before, complete);
+  },
+
+  pokemonsFetch: function() {
+    var before = function() {
+      this.setState({pokemonsLoading: true});
+    }.bind(this);
+
+    var complete = function() {
+      this.setState({pokemonsLoading: false});
+    }.bind(this);
+
+    this.loadPokemons(before, complete);
   },
 
   selectPokemon: function(pokemon) {
@@ -188,9 +247,9 @@ var Pokedex = React.createClass({
   },
 
   getInitialState: function() {
-    console.log("executing getInitialState");
     return {
-      initialLoad: false,
+      initialPokemonsLoading: false,
+      pokemonsLoading: false,
       url: "http://pokeapi.co/api/v1/pokemon/?limit=12",
       pokemonsData: [],
       selectedPokemon: null
@@ -198,21 +257,17 @@ var Pokedex = React.createClass({
   },
 
   componentWillMount: function() {
-    console.log("executing componentWillMount");
-    this.setState({initialLoad: true});
-
-    this.fetchPokemons(function() {
-      this.setState({initialLoad: false});
-    }.bind(this));
+    this.initialPokemonsFetch();
   },
 
   render: function() {
-    if (this.state.initialLoad) {
+    if (this.state.initialPokemonsLoading) {
       return (<div> Loading data </div>);
     } else {
       return (<PokemonsPane pokemonsData={this.state.pokemonsData}
                             selectedPokemon={this.state.selectedPokemon}
-                            handleLoad={this.fetchPokemons}
+                            pokemonsLoading={this.state.pokemonsLoading}
+                            handleLoad={this.pokemonsFetch}
                             handlePokemonSelect={this.selectPokemon}/>);
     }
   }
