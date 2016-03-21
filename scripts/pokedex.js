@@ -1,3 +1,7 @@
+var _ = require('underscore');
+var $ = require('jquery');
+var React = require('react');
+
 var PokemonInfo = React.createClass({
 
   propTypes: {
@@ -285,7 +289,4 @@ var PokedexRoot = React.createClass({
   }
 });
 
-ReactDOM.render(
-  <PokedexRoot/>,
-  document.getElementById("container")
-);
+module.exports = PokedexRoot;
