@@ -16,6 +16,18 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "reactify": "^1.1.1"
+    "browserify": "^13.0.0",
+    "reactify": "^1.1.1",
+    "watchify": "^3.7.0"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "reactify",
+        {
+          "es6": true
+        }
+      ]
+    ]
   }
 }
