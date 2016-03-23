@@ -28,15 +28,19 @@ var Store = assign({}, EventEmitter.prototype, {
 
   removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
-  }
+  },
 
   set: function(k, v) {
-    state = state.set(k, v);
+    this.state = this.state.set(k, v);
     this.emitChange();
-  }
+  },
 
   get: function(k) {
-    return state.get(k);
+    return this.state.get(k);
+  },
+
+  getState: function() {
+    return this.state.toJSON();
   }
 
 });

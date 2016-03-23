@@ -2,6 +2,9 @@ var _ = require('underscore');
 var $ = require('jquery');
 var React = require('react');
 
+var Actions = require('./Actions');
+var Store = require('./Store');
+
 var PokemonInfo = React.createClass({
 
   propTypes: {

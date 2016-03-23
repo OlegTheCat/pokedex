@@ -1,9 +1,9 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-var PokedexRoot = require('./pokedex.js');
+var PokedexApp = require('./components/PokedexApp');
 
 ReactDOM.render(
-  <PokedexRoot/>,
+  <PokedexApp/>,
   document.getElementById("container")
 );
