@@ -10,7 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "events": "^1.1.0",
+    "flux": "^2.1.1",
+    "immutable": "^3.7.6",
     "jquery": "^2.2.2",
+    "object-assign": "^4.0.1",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "underscore": "^1.8.3"
