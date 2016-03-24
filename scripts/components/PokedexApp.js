@@ -1,6 +1,6 @@
 var React = require('react');
 var Store = require('../Store');
-
+var Pokedex = require('./Pokedex');
 
 var PokedexApp = React.createClass({
   getInitialState: function() {
@@ -11,7 +11,7 @@ var PokedexApp = React.createClass({
     this.setState(Store.getState());
   },
 
-  componentDidMount: function() {
+  componentWillMount: function() {
     Store.addChangeListener(this._onChange);
   },
 
@@ -23,6 +23,7 @@ var PokedexApp = React.createClass({
     return (
       <div>
         <h1 className="header">Pokedex</h1>
+        <Pokedex world={this.state}/>
       </div>
     );
   }

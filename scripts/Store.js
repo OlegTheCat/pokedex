@@ -1,6 +1,8 @@
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 var Immutable = require('immutable');
+var $ = require('jquery');
+
 var AppDispatcher = require('./AppDispatcher');
 var Constants = require('./Constants');
 
@@ -46,23 +48,24 @@ var Store = assign({}, EventEmitter.prototype, {
 });
 
 function loadPokemons(before, complete) {
-  console.log("abount to query " + this.state.url);
+  console.log("abount to query " + Store.get('url'));
 
   $.ajax({
     url: Store.get('url'),
     datatype: 'json',
 
     success: function(resp) {
-      console.log("successfully fetched from " + this.state.url);
+      console.log("successfully fetched from " + Store.get('url'));
 
-      Store.set('pokemonsData', resp.objects);
+      Store.set('pokemonsData', Store.get('pokemonsData').concat(resp.objects));
       Store.set('url', "http://pokeapi.co" + resp.meta.next);
     },
 
     error: function(xhr, status, err) {
-      console.log("error fetching from" + this.state.url);
+      console.log("error fetching from" + Store.get('url'));
       console.error(Store.get('url'), status, err.toString());
     },
+    cache: false,
 
     beforeSend: function() {
       if (before) { before(); }
@@ -103,7 +106,7 @@ function selectPokemon(pokemon) {
 
 AppDispatcher.register(function(action) {
   switch(action.actionType) {
-    case Constants.INTIAL_LOAD:
+    case Constants.INITIAL_LOAD:
       initialPokemonsFetch();
       break;
 
