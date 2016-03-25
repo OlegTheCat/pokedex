@@ -2,6 +2,7 @@ var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 var Immutable = require('immutable');
 var $ = require('jquery');
+var _ = require('underscore');
 
 var AppDispatcher = require('./AppDispatcher');
 var Constants = require('./Constants');
@@ -11,8 +12,11 @@ var CHANGE_EVENT = 'change';
 var StateClass = Immutable.Record({
   initialPokemonsLoading: false,
   pokemonsLoading: false,
+  typesLoading: false,
   url: "http://pokeapi.co/api/v1/pokemon/?limit=12",
   pokemonsData: [],
+  pokemonTypes: [],
+  currentFilters: {},
   selectedPokemon: null
 });
 
@@ -99,15 +103,56 @@ function pokemonsFetch() {
   loadPokemons(before, complete);
 }
 
+function typesFetch() {
+  $.ajax({
+    url: "http://pokeapi.co/api/v1/type/?limit=0",
+    datatype: 'json',
+
+    success: function(resp) {
+      console.log("successfully fetched from " + "http://pokeapi.co/api/v1/type/?limit=0");
+      Store.set('pokemonTypes', resp.objects);
+    },
+
+    error: function(xhr, status, err) {
+      console.log("error fetching from" + Store.get('url'));
+      console.error("http://pokeapi.co/api/v1/type/", status, err.toString());
+    },
+    cache: false,
+
+    beforeSend: function() {
+      Store.set('typesLoading', true);
+      return true;
+    },
+    complete: function() {
+      Store.set('typesLoading', false);
+    }
+  });
+
+}
+
 function selectPokemon(pokemon) {
   Store.set('selectedPokemon', pokemon);
 }
 
+function addFilter(typeName) {
+  var newFilter = {};
+  newFilter[typeName] = true;
+
+  Store.set('currentFilters', _.extend(Store.get('currentFilters'), newFilter));
+}
+
+function removeFilter(typeName) {
+  Store.set('currentFilters', _.omit(Store.get('currentFilters'), typeName));
+}
+
+
+window.Store = Store;
 
 AppDispatcher.register(function(action) {
   switch(action.actionType) {
     case Constants.INITIAL_LOAD:
       initialPokemonsFetch();
+      typesFetch();
       break;
 
     case Constants.LOAD:
@@ -118,6 +163,13 @@ AppDispatcher.register(function(action) {
       selectPokemon(action.pokemon);
       break;
 
+    case Constants.FILTER:
+      if (action.doAdd) {
+        addFilter(action.typeName);
+      } else {
+        removeFilter(action.typeName);
+      }
+      break;
 
     default:
       // no op
