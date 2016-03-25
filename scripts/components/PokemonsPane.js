@@ -43,7 +43,7 @@ var PokemonsPane = React.createClass({
   render: function() {
     return (
       <div>
-
+        {this.renderSelectedPokemon()}
         {this.props.pokemonsData.map(this.renderPokemon)}
         {this.renderLoadMoreButton()}
       </div>
