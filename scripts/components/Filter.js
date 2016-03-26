@@ -24,19 +24,14 @@ var Filter = React.createClass({
   },
 
   renderFilterCheckbox: function(typesCount, type) {
-    // WAT?
-    // fetched type has capitalized name,
-    // but type name in pokemon structure is downcased
-    var typeName = type.name.toLowerCase();
-
     var count = typesCount[typeName];
 
     return (
       <label>
       <input type="checkbox"
              disabled={!count}
-             checked={this.props.currentFilters[typeName]}
-             onChange={_.partial(this.onCheckboxChange, typeName)} />
+             checked={this.props.currentFilters[type.name]}
+             onChange={_.partial(this.onCheckboxChange, type.name)} />
       {type.name} ({count || 0})
     </label>);
   },

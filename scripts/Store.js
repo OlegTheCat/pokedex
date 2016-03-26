@@ -110,7 +110,14 @@ function typesFetch() {
 
     success: function(resp) {
       console.log("successfully fetched from " + "http://pokeapi.co/api/v1/type/?limit=0");
-      Store.set('pokemonTypes', resp.objects);
+      Store.set('pokemonTypes',
+                // WAT?
+                // fetched type has capitalized name,
+                // but type name in pokemon structure is downcased
+                _.map(resp.objects,
+                      function(type) {
+                        return _.extend(type, {name: type.name.toLowerCase()});
+                      }));
     },
 
     error: function(xhr, status, err) {
