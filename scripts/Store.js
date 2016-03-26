@@ -94,6 +94,7 @@ function initialPokemonsFetch() {
 function pokemonsFetch() {
   var before = function() {
     Store.set('pokemonsLoading', true);
+    Store.set('currentFilters', {});
   };
 
   var complete = function() {

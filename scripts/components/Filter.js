@@ -24,15 +24,15 @@ var Filter = React.createClass({
   },
 
   renderFilterCheckbox: function(typesCount, type) {
-    var count = typesCount[typeName];
+    var count = typesCount[type.name];
 
     return (
-      <label>
-      <input type="checkbox"
-             disabled={!count}
-             checked={this.props.currentFilters[type.name]}
-             onChange={_.partial(this.onCheckboxChange, type.name)} />
-      {type.name} ({count || 0})
+      <label key={type.name}>
+        <input type="checkbox"
+               disabled={!count}
+               checked={this.props.currentFilters[type.name]}
+               onChange={_.partial(this.onCheckboxChange, type.name)} />
+        {type.name} ({count || 0})
     </label>);
   },
 
