@@ -1,15 +1,12 @@
 var React = require('react');
 
 var Actions = require('../Actions');
+var Utils = require('../Utils');
 
 var Pokemon = React.createClass({
 
   propTypes: {
     pokemonData: React.PropTypes.object,
-  },
-
-  buildImgUrl: function(id) {
-    return "http://pokeapi.co/media/img/" + id + ".png"
   },
 
   handleClick: function() {
@@ -19,7 +16,7 @@ var Pokemon = React.createClass({
   render: function() {
     return (
       <div>
-        <img src={this.buildImgUrl(this.props.pokemonData.national_id)}
+        <img src={Utils.buildImgUrl(this.props.pokemonData.national_id)}
              onClick={this.handleClick}/>
         <br/>
         <h3>{this.props.pokemonData.name}</h3>

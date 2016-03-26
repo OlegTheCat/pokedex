@@ -1,16 +1,12 @@
 var React = require('react');
 
+var Utils = require('../Utils');
+
 var PokemonInfo = React.createClass({
 
   propTypes: {
     pokemonData: React.PropTypes.object,
   },
-
-
-  buildImgUrl: function(id) {
-    return "http://pokeapi.co/media/img/" + id + ".png"
-  },
-
 
   pokemonInfoTableData: [
     {
@@ -90,7 +86,7 @@ var PokemonInfo = React.createClass({
   render: function() {
     return (
       <div>
-        <img src={this.buildImgUrl(this.props.pokemonData.national_id)} />
+        <img src={Utils.buildImgUrl(this.props.pokemonData.national_id)} />
         <table>
           <caption>{this.props.pokemonData.name} #{this.props.pokemonData.national_id}</caption>
           <tbody>

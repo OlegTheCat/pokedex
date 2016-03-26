@@ -5,6 +5,8 @@ var _ = require('underscore');
 
 var AppDispatcher = require('./AppDispatcher');
 var Constants = require('./Constants');
+var Utils = require('./Utils');
+var Config = require('./Config');
 
 var CHANGE_EVENT = 'change';
 
@@ -12,7 +14,7 @@ var StateClass = Immutable.Record({
   initialPokemonsLoading: false,
   pokemonsLoading: false,
   typesLoading: false,
-  url: "http://pokeapi.co/api/v1/pokemon/?limit=12",
+  url: Utils.buildPokemonUrl({limit: Config.POKEMON_LIMIT}),
   pokemonsData: [],
   pokemonTypes: [],
   currentFilters: {},
@@ -71,7 +73,7 @@ function loadPokemons(before, complete) {
 
       Store.assign({
         pokemonsData: Store.get('pokemonsData').concat(resp.objects),
-        url: "http://pokeapi.co" + resp.meta.next
+        url: Config.DOMAIN + resp.meta.next
       });
     },
 
@@ -117,12 +119,15 @@ function pokemonsFetch() {
 }
 
 function typesFetch() {
+
+  var url = Utils.buildTypeUrl({limit: 0});
+
   $.ajax({
-    url: "http://pokeapi.co/api/v1/type/?limit=0",
+    url: url,
     datatype: 'json',
 
     success: function(resp) {
-      console.log("successfully fetched from " + "http://pokeapi.co/api/v1/type/?limit=0");
+      console.log("successfully fetched from " + url);
       Store.set('pokemonTypes',
                 // WAT?
                 // fetched type has capitalized name,
@@ -134,8 +139,8 @@ function typesFetch() {
     },
 
     error: function(xhr, status, err) {
-      console.log("error fetching from" + Store.get('url'));
-      console.error("http://pokeapi.co/api/v1/type/", status, err.toString());
+      console.log("error fetching from" + url);
+      console.error(url, status, err.toString());
     },
     cache: false,
 
