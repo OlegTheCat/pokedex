@@ -1,5 +1,4 @@
 var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
 var Immutable = require('immutable');
 var $ = require('jquery');
 var _ = require('underscore');
@@ -21,7 +20,7 @@ var StateClass = Immutable.Record({
 });
 
 
-var Store = assign({}, EventEmitter.prototype, {
+var Store = _.create(EventEmitter.prototype, {
   state: StateClass(),
 
   emitChange: function() {

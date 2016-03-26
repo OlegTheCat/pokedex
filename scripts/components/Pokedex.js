@@ -6,6 +6,11 @@ var PokemonsPane = require('./PokemonsPane');
 
 var Pokedex = React.createClass({
 
+  propTypes: {
+    world: React.PropTypes.object
+  },
+
+
   componentWillMount: function() {
     Actions.initialLoad();
   },
