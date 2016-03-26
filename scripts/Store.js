@@ -41,6 +41,15 @@ var Store = assign({}, EventEmitter.prototype, {
     this.emitChange();
   },
 
+  assign: function(o) {
+    this.state = _.reduce(o,
+                          function(acc, v, k) {
+                            return acc.set(k, v);
+                          },
+                          this.state);
+    this.emitChange();
+  },
+
   get: function(k) {
     return this.state.get(k);
   },
@@ -61,8 +70,10 @@ function loadPokemons(before, complete) {
     success: function(resp) {
       console.log("successfully fetched from " + Store.get('url'));
 
-      Store.set('pokemonsData', Store.get('pokemonsData').concat(resp.objects));
-      Store.set('url', "http://pokeapi.co" + resp.meta.next);
+      Store.assign({
+        pokemonsData: Store.get('pokemonsData').concat(resp.objects),
+        url: "http://pokeapi.co" + resp.meta.next
+      });
     },
 
     error: function(xhr, status, err) {
@@ -93,8 +104,10 @@ function initialPokemonsFetch() {
 
 function pokemonsFetch() {
   var before = function() {
-    Store.set('pokemonsLoading', true);
-    Store.set('currentFilters', {});
+    Store.assign({
+      pokemonsLoading: true,
+      currentFilters: {}
+    });
   };
 
   var complete = function() {
