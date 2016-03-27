@@ -23,9 +23,10 @@ var Pokemon = React.createClass({
         <br/>
         {this.props.pokemonData.types.map(function(type) {
            return (
-             <div key={type.name}>
+             <span key={type.name}
+                   className={"pokemonType " + "pokemonType-" + type.name}>
                {type.name}
-             </div>
+             </span>
            );
          })}
       </div>
