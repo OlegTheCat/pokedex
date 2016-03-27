@@ -51,11 +51,21 @@ var PokemonsPane = React.createClass({
 
   render: function() {
     return (
-      <div>
-        {this.renderSelectedPokemon()}
-        {this.renderFilter()}
-        {this.props.pokemonsData.map(this.renderPokemon)}
-        {this.renderLoadMoreButton()}
+      <div className="container">
+        <div className="col-xs-12">
+          {this.renderFilter()}
+        </div>
+        <div className="container col-xs-12">
+          <div className="container col-xs-6 col-sm-8 col-md-9">
+            {this.props.pokemonsData.map(this.renderPokemon)}
+          </div>
+          <div className="col-xs-6 col-sm-4 col-md-3">
+            {this.renderSelectedPokemon()}
+          </div>
+        </div>
+        <div className="col-xs-12">
+          {this.renderLoadMoreButton()}
+        </div>
       </div>
     );
   }

@@ -11,15 +11,15 @@
     text-align: center;
 }
 
-.pokemonContainer {
-    border-style: solid;
-    border-width: 1px;
-    width: 150px;
-    height: 250px;
-    margin-right: 10px;
+.pokemonContainerOuter {
     text-align: center;
     margin-bottom: 20px;
+}
 
+.pokemonContainerInner {
+    border-style: solid;
+    border-width: 1px;
+    padding: 10px;
 }
 
 .pokemonTypeContainer {
@@ -86,7 +86,6 @@
 .pokemonType-steel {
     background-color: LightSteelBlue;
 }
-
 
 .pokemonImage {
     width: 100px;
