@@ -81,7 +81,6 @@ function loadPokemons(before, complete) {
       console.log("error fetching from" + Store.get('url'));
       console.error(Store.get('url'), status, err.toString());
     },
-    cache: false,
 
     beforeSend: function() {
       if (before) { before(); }
@@ -142,7 +141,6 @@ function typesFetch() {
       console.log("error fetching from" + url);
       console.error(url, status, err.toString());
     },
-    cache: false,
 
     beforeSend: function() {
       Store.set('typesLoading', true);
