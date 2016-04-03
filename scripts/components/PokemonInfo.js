@@ -87,8 +87,10 @@ var PokemonInfo = React.createClass({
     return (
       <div>
         <img src={Utils.buildImgUrl(this.props.pokemonData.national_id)} />
-        <table>
-          <caption>{this.props.pokemonData.name} #{this.props.pokemonData.national_id}</caption>
+        <table style={{margin: "auto"}}>
+          <caption style={{textAlign: "center"}}>
+            {this.props.pokemonData.name}&nbsp;#{this.props.pokemonData.national_id}
+          </caption>
           <tbody>
             {this.pokemonInfoTableData.map(this.renderPokemonTableDataItem)}
           </tbody>

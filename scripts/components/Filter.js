@@ -27,7 +27,8 @@ var Filter = React.createClass({
     var count = typesCount[type.name];
 
     return (
-      <label key={type.name}>
+      <label className="col-xs-4 col-sm-3 col-md-12"
+             key={type.name}>
         <input type="checkbox"
                disabled={!count}
                checked={this.props.currentFilters[type.name]}
@@ -40,10 +41,11 @@ var Filter = React.createClass({
     var typesCount = this.countTypes();
 
     return (
-      <div>
-        Filter
+      <div className="container col-xs-11 col-md-12"
+           style={{float: "left"}}>
         {_.map(this.props.pokemonTypes, _.partial(this.renderFilterCheckbox, typesCount))}
-      </div>);
+      </div>
+    );
   }
 });
 

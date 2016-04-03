@@ -20,7 +20,7 @@ var Pokemon = React.createClass({
           <img className="pokemonImage"
                src={Utils.buildImgUrl(this.props.pokemonData.national_id)}
                onClick={this.handleClick}/>
-          <h3>{this.props.pokemonData.name}</h3>
+          <h4>{this.props.pokemonData.name}</h4>
           <div>
             {this.props.pokemonData.types.map(function(type) {
                return (
