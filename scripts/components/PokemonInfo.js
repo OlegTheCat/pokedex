@@ -64,9 +64,9 @@ var PokemonInfo = React.createClass({
 
   renderTr: function(key, value) {
     return (
-      <tr>
-        <td>{key}</td>
-        <td>{value}</td>
+      <tr className="pokemonTableElement">
+        <td className="pokemonTableElement">{key}</td>
+        <td className="pokemonTableElement">{value}</td>
       </tr>
     );
   },
@@ -85,9 +85,9 @@ var PokemonInfo = React.createClass({
 
   render: function() {
     return (
-      <div>
+      <div className="affix" style={{alignItems: "center"}}>
         <img src={Utils.buildImgUrl(this.props.pokemonData.national_id)} />
-        <table style={{margin: "auto"}}>
+        <table className="pokemonInfoTable">
           <caption style={{textAlign: "center"}}>
             {this.props.pokemonData.name}&nbsp;#{this.props.pokemonData.national_id}
           </caption>

@@ -90,4 +90,29 @@
 .pokemonImage {
     width: 100px;
     height: 100px;
+    cursor: pointer;
+    border-style: solid;
+    border-width: 1px;
+    border-color: Gainsboro;
+}
+
+.pokemonInfoTable {
+    margin: auto;
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.pokemonTableElement {
+    padding: 3px;
+    border: 1px solid black;
+}
+
+.loadButton {
+    background-color: LightSteelBlue;
+    text-align: center;
+}
+
+.loadingImg {
+    margin: auto;
 }

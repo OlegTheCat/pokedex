@@ -169,8 +169,6 @@ function removeFilter(typeName) {
 }
 
 
-window.Store = Store;
-
 AppDispatcher.register(function(action) {
   switch(action.actionType) {
     case Constants.INITIAL_LOAD:

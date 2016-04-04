@@ -31,13 +31,14 @@ var PokemonsPane = React.createClass({
   renderLoadMoreButton: function() {
     if (this.props.pokemonsLoading) {
       return (
-        <p>
+        <p className="loadButton">
           Loading ...
         </p>
       );
     } else {
       return (
-        <p onClick={Actions.load}>
+        <p onClick={Actions.load}
+           className="loadButton">
           Load more
         </p>);
     }
@@ -65,7 +66,7 @@ var PokemonsPane = React.createClass({
           <div className="col-xs-6 col-sm-4 col-md-3">
             {this.renderSelectedPokemon()}
           </div>
-          <div className="col-xs-12">
+          <div className="col-xs-6 col-sm-8 col-md-9">
             {this.renderLoadMoreButton()}
           </div>
         </div>

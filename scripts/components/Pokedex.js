@@ -34,7 +34,10 @@ var Pokedex = React.createClass({
 
   render: function() {
     if (this.props.world.initialPokemonsLoading || this.props.world.typesLoading) {
-      return (<div> Loading data </div>);
+      return (
+        <div style={{textAlign: "center"}}>
+          <img className="loadingImg" src="images/loading.gif" alt="Loading..."/>
+        </div>);
     } else {
       var propsToPass = _.pick(this.props.world, ['pokemonTypes',
                                                   'selectedPokemon',
