@@ -13,4 +13,4 @@
 
 Project is available at http://olegthecat.github.io/pokedex/.
 
-To run project locally, make sure that project is built. If so, just `open index.html`
+To run project locally, make sure that it is built. If so, just `open index.html`
