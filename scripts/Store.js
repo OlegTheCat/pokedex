@@ -61,6 +61,8 @@ var Store = _.create(EventEmitter.prototype, {
 
 });
 
+// TODO: abort queries if the root component is unmounted
+
 function loadPokemons(before, complete) {
   console.log("abount to query " + Store.get('url'));
 
