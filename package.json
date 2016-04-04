@@ -32,5 +32,9 @@
         }
       ]
     ]
+  },
+  "scripts": {
+    "build": "browserify scripts/main.js > scripts/bundle.js",
+    "watch": "watchify scripts/main.js -o scripts/bundle.js -dv"
   }
 }
